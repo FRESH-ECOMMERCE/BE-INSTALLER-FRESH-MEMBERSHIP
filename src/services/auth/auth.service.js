@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const http_status_codes_1 = require("http-status-codes");
@@ -10,6 +13,8 @@ const hash_util_1 = require("../../utils/hash.util");
 const user_model_1 = require("../../models/user.model");
 const membership_service_1 = require("../membership/membership.service");
 const redis_1 = require("../../configs/redis");
+const configs_1 = require("../../configs");
+const axios_1 = __importDefault(require("axios"));
 class AuthService {
     static async loginUser(payload) {
         const { userWhatsappNumber, userPassword } = payload;
@@ -112,10 +117,7 @@ class AuthService {
         const message = encodeURIComponent(`*${otpCode}* adalah kode verifikasi Anda.\n\n` +
             `Pengingat keamanan: Untuk memastikan keamanan akun Anda, mohon jangan bagikan informasi apa pun tentang akun Anda kepada siapa pun. kode ini akan expire dalam ${minutes} menit`);
         try {
-            console.log(message);
-            // await axios.get(
-            //   `${appConfigs.wablas.url}/send-message?phone=${userWhatsappNumber}&message=${message}&token=${appConfigs.wablas.token}`
-            // )
+            await axios_1.default.get(`${configs_1.appConfigs.wablas.url}/send-message?phone=${userWhatsappNumber}&message=${message}&token=${configs_1.appConfigs.wablas.token}`);
         }
         catch (e) {
             logger_service_1.LoggerService.error(`[AuthService]: Failed to send OTP: ${e}`);
