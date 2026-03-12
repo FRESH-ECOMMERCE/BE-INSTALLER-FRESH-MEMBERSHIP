@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("../controllers/auth");
+const auth_validation_1 = require("../validations/auth.validation");
+const middlewares_1 = require("../middlewares");
+const AuthRoute = (0, express_1.Router)();
+AuthRoute.post('/login', middlewares_1.MiddleWares.validate({ body: auth_validation_1.loginSchema }), auth_1.AuthController.userLogin);
+AuthRoute.post('/register', middlewares_1.MiddleWares.validate({ body: auth_validation_1.registrationSchema }), auth_1.AuthController.userRegister);
+AuthRoute.patch('/reset-password', middlewares_1.MiddleWares.validate({ body: auth_validation_1.updatePasswordSchema }), auth_1.AuthController.updatePassword);
+AuthRoute.post('/request-otp', middlewares_1.MiddleWares.validate({ body: auth_validation_1.requestOtpSchema }), auth_1.AuthController.otpRequest);
+AuthRoute.post('/verify-otp', middlewares_1.MiddleWares.validate({ body: auth_validation_1.verifyOtpSchema }), auth_1.AuthController.otpVerify);
+exports.default = AuthRoute;

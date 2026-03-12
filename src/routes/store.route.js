@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const middlewares_1 = require("../middlewares");
+const store_1 = require("../controllers/store");
+const store_validation_1 = require("../validations/store.validation");
+const StoreRoute = (0, express_1.Router)();
+StoreRoute.use(middlewares_1.MiddleWares.useAuthorization);
+StoreRoute.get('/', middlewares_1.MiddleWares.validate({ query: store_validation_1.listStoresQuerySchema }), store_1.StoreController.listStores);
+StoreRoute.post('/', middlewares_1.MiddleWares.validate({ body: store_validation_1.createStoreSchema }), store_1.StoreController.createStore);
+StoreRoute.get('/:storeId', middlewares_1.MiddleWares.validate({ params: store_validation_1.storeIdParamSchema }), store_1.StoreController.findStoreDetail);
+StoreRoute.patch('/:storeId', middlewares_1.MiddleWares.validate({ params: store_validation_1.storeIdParamSchema, body: store_validation_1.updateStoreSchema }), store_1.StoreController.updateStore);
+StoreRoute.delete('/:storeId', middlewares_1.MiddleWares.validate({ params: store_validation_1.storeIdParamSchema }), store_1.StoreController.removeStore);
+exports.default = StoreRoute;

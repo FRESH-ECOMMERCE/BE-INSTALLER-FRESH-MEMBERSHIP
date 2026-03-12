@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const middlewares_1 = require("../middlewares");
+const statistic_1 = require("../controllers/statistic");
+const statistic_validation_1 = require("../validations/statistic.validation");
+const StatisticRoute = (0, express_1.Router)();
+StatisticRoute.use(middlewares_1.MiddleWares.useAuthorization);
+StatisticRoute.get('/', middlewares_1.MiddleWares.validate({ query: statistic_validation_1.getStatisticQuerySchema }), statistic_1.StatisticController.getStatistics);
+exports.default = StatisticRoute;

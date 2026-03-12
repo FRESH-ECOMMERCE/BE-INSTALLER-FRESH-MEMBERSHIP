@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const middlewares_1 = require("../middlewares");
+const banner_1 = require("../controllers/banner");
+const banner_validation_1 = require("../validations/banner.validation");
+const BannerRoute = (0, express_1.Router)();
+BannerRoute.get('/', middlewares_1.MiddleWares.validate({ query: banner_validation_1.listBannersQuerySchema }), banner_1.BannerController.listBanners);
+BannerRoute.post('/', middlewares_1.MiddleWares.useAuthorization, middlewares_1.MiddleWares.validate({ body: banner_validation_1.createBannerSchema }), banner_1.BannerController.createBanner);
+BannerRoute.get('/:bannerId', middlewares_1.MiddleWares.validate({ params: banner_validation_1.bannerIdParamSchema }), banner_1.BannerController.findBannerDetail);
+BannerRoute.patch('/:bannerId', middlewares_1.MiddleWares.useAuthorization, middlewares_1.MiddleWares.validate({ params: banner_validation_1.bannerIdParamSchema, body: banner_validation_1.updateBannerSchema }), banner_1.BannerController.updateBanner);
+BannerRoute.delete('/:bannerId', middlewares_1.MiddleWares.useAuthorization, middlewares_1.MiddleWares.validate({ params: banner_validation_1.bannerIdParamSchema }), banner_1.BannerController.removeBanner);
+exports.default = BannerRoute;

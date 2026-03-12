@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const middlewares_1 = require("../middlewares");
+const pointConvertion_validation_1 = require("../validations/pointConvertion.validation");
+const pointConvertion_1 = require("../controllers/pointConvertion");
+const PointConvertionRoute = (0, express_1.Router)();
+PointConvertionRoute.use(middlewares_1.MiddleWares.useAuthorization);
+PointConvertionRoute.get('/', pointConvertion_1.PointConvertionController.findPointConvertion);
+PointConvertionRoute.patch('/', middlewares_1.MiddleWares.validate({ body: pointConvertion_validation_1.createPointConvertionSchema }), pointConvertion_1.PointConvertionController.upsertPointConvertion);
+exports.default = PointConvertionRoute;

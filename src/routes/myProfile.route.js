@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const middlewares_1 = require("../middlewares");
+const myProfile_1 = require("../controllers/myProfile");
+const myProfile_validation_1 = require("../validations/myProfile.validation");
+const MyProfileRoute = (0, express_1.Router)();
+MyProfileRoute.use(middlewares_1.MiddleWares.useAuthorization);
+MyProfileRoute.get('/', middlewares_1.MiddleWares.validate({ query: myProfile_validation_1.findMyProfileSchema }), myProfile_1.MyProfileController.find);
+MyProfileRoute.patch('/', middlewares_1.MiddleWares.validate({ body: myProfile_validation_1.updateMyProfileSchema }), myProfile_1.MyProfileController.update);
+exports.default = MyProfileRoute;

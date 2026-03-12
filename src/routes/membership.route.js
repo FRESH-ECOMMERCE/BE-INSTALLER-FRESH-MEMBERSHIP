@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const middlewares_1 = require("../middlewares");
+const membership_validation_1 = require("../validations/membership.validation");
+const membership_1 = require("../controllers/membership");
+const MembershipRoute = (0, express_1.Router)();
+MembershipRoute.use(middlewares_1.MiddleWares.useAuthorization);
+MembershipRoute.get('/', middlewares_1.MiddleWares.validate({ query: membership_validation_1.listMembershipsQuerySchema }), membership_1.MembershipController.listMemberships);
+MembershipRoute.get('/:membershipCode', membership_1.MembershipController.findMembershipByCode);
+exports.default = MembershipRoute;

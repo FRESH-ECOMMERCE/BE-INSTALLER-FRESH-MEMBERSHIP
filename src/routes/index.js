@@ -1,0 +1,30 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const http_status_codes_1 = require("http-status-codes");
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const registry_1 = __importDefault(require("./registry"));
+const logger_service_1 = require("../services/logger/logger.service");
+const response_util_1 = require("../utils/response.util");
+const swagger_1 = __importDefault(require("../configs/swagger"));
+const routers = (0, express_1.Router)();
+routers.use('/api/v1/', registry_1.default.HealthRoute);
+routers.use('/api/v1/auth', registry_1.default.AuthRoute);
+routers.use('/api/v1/my-profiles', registry_1.default.MyProfileRoute);
+routers.use('/api/v1/stores', registry_1.default.StoreRoute);
+routers.use('/api/v1/memberships', registry_1.default.MembershipRoute);
+routers.use('/api/v1/banners', registry_1.default.BannerRoute);
+routers.use('/api/v1/points/transactions', registry_1.default.PointTransactionRoute);
+routers.use('/api/v1/points/convertions', registry_1.default.PointConvertionRoute);
+routers.use('/api/v1/stats', registry_1.default.StatisticRoute);
+routers.use('/api/v1/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.default));
+routers.use((req, res) => {
+    const message = `Route not found!`;
+    logger_service_1.LoggerService.warn(message);
+    const response = response_util_1.ResponseData.error({ message });
+    return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response);
+});
+exports.default = routers;
