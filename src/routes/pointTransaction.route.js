@@ -6,7 +6,6 @@ const pointTransaction_validation_1 = require("../validations/pointTransaction.v
 const pointTransaction_1 = require("../controllers/pointTransaction");
 const pointTransaction_validation_2 = require("../validations/pointTransaction.validation");
 const PointTransactionRoute = (0, express_1.Router)();
-PointTransactionRoute.use(middlewares_1.MiddleWares.useAuthorization);
-PointTransactionRoute.get('/', middlewares_1.MiddleWares.validate({ query: pointTransaction_validation_1.listPointTransactionsQuerySchema }), pointTransaction_1.PointTransactionController.listPointTransactions);
-PointTransactionRoute.post('/', middlewares_1.MiddleWares.validate({ body: pointTransaction_validation_2.createPointTransactionSchema }), pointTransaction_1.PointTransactionController.createPointTransaction);
+PointTransactionRoute.get('/', middlewares_1.MiddleWares.useAuthorization, middlewares_1.MiddleWares.validate({ query: pointTransaction_validation_1.listPointTransactionsQuerySchema }), pointTransaction_1.PointTransactionController.listPointTransactions);
+PointTransactionRoute.post('/', middlewares_1.MiddleWares.useTokenAuthorization, middlewares_1.MiddleWares.validate({ body: pointTransaction_validation_2.createPointTransactionSchema }), pointTransaction_1.PointTransactionController.createPointTransaction);
 exports.default = PointTransactionRoute;

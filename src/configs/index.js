@@ -29,7 +29,8 @@ exports.appConfigs = {
         keyEncryption: process.env.SECRET_KEY_ENCRYPTION,
         passwordEncryption: process.env.SECRET_PASSWORD_ENCRYPTION,
         pinEncryption: process.env.SECRET_PIN_ENCRYPTION,
-        jwtToken: process.env.JWT_TOKEN
+        jwtToken: process.env.JWT_TOKEN,
+        backendApiToken: process.env.BACKEND_API_TOKEN
     },
     wablas: {
         url: process.env.WABLAS_URL,
